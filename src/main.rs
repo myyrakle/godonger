@@ -1,5 +1,12 @@
 mod command;
 
+use clap::Parser;
+use command::SubCommand;
+
 fn main() {
-    println!("Hello, world!");
+    let args = command::Command::parse();
+
+    match args.action {
+        SubCommand::Gen(_gen) => {}
+    }
 }

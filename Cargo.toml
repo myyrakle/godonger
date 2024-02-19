@@ -17,6 +17,7 @@ homepage = "https://github.com/myyrakle/godonger/blob/master/README.md"
 atty = { version = "0.2.14", optional = true }
 structopt = { version = "0.3.18", optional = true }
 clap = { version = "4.4.18", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
 
 [[bin]]
 name = "godonger"
