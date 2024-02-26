@@ -99,10 +99,38 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
     internal_files.dir = internal_path;
 
     if route_path.exists() {
-        let route_files = RouteFiles {
+        let mut route_files = RouteFiles {
             dir: config_file.route_dir,
             details: vec![],
         };
+
+        for variant in config_file.route_variant_list {
+            let variant_path = route_path.join(&variant);
+            if !variant_path.exists() {
+                continue;
+            }
+
+            let filenames = variant_path
+                .read_dir()
+                .expect("Failed to read route directory")
+                .map(|entry| entry.expect("Failed to read entry").path())
+                .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
+                .map(|path| {
+                    path.file_stem()
+                        .expect("Failed to get file stem")
+                        .to_str()
+                        .expect("Failed to convert to str")
+                        .to_string()
+                })
+                .collect();
+
+            let route_files_detail = RouteFilesDetail {
+                dir: variant.into(),
+                filenames,
+            };
+
+            route_files.details.push(route_files_detail);
+        }
 
         internal_files.route = Some(route_files);
     }
