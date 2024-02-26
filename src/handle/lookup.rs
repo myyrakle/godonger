@@ -31,6 +31,7 @@ pub fn lookup_domain(domain: String) -> Vec<PathBuf> {
     domain_file_path_list
 }
 
+#[derive(Debug)]
 pub struct InternalFiles {
     pub dir: PathBuf,
     pub route: Option<RouteFiles>,
@@ -51,31 +52,37 @@ impl Default for InternalFiles {
     }
 }
 
+#[derive(Debug)]
 pub struct RouteFiles {
     pub dir: PathBuf,
     pub details: Vec<RouteFilesDetail>,
 }
 
+#[derive(Debug)]
 pub struct RouteFilesDetail {
     pub dir: PathBuf,
     pub filenames: Vec<String>,
 }
 
+#[derive(Debug)]
 pub struct StoreFiles {
     pub dir: PathBuf,
     pub details: Vec<StoreFilesDetail>,
 }
 
+#[derive(Debug)]
 pub struct StoreFilesDetail {
     pub dir: PathBuf,
     pub filenames: Vec<String>,
 }
 
+#[derive(Debug)]
 pub struct UsecaseFiles {
     pub dir: PathBuf,
     pub filenames: Vec<String>,
 }
 
+#[derive(Debug)]
 pub struct HelperFiles {
     pub dir: PathBuf,
     pub filenames: Vec<String>,
@@ -114,15 +121,15 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
             let filenames = variant_path
                 .read_dir()
                 .expect("Failed to read route directory")
-                .map(|entry| entry.expect("Failed to read entry").path())
-                .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
-                .map(|path| {
-                    path.file_stem()
-                        .expect("Failed to get file stem")
+                .map(|entry| {
+                    entry
+                        .expect("Failed to read entry")
+                        .file_name()
                         .to_str()
-                        .expect("Failed to convert to str")
+                        .unwrap()
                         .to_string()
                 })
+                .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
                 .collect();
 
             let route_files_detail = RouteFilesDetail {
@@ -140,15 +147,15 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
         let filenames = usecase_path
             .read_dir()
             .expect("Failed to read usecase directory")
-            .map(|entry| entry.expect("Failed to read entry").path())
-            .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
-            .map(|path| {
-                path.file_stem()
-                    .expect("Failed to get file stem")
+            .map(|entry| {
+                entry
+                    .expect("Failed to read entry")
+                    .file_name()
                     .to_str()
-                    .expect("Failed to convert to str")
+                    .unwrap()
                     .to_string()
             })
+            .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
             .collect();
 
         internal_files.usecase = Some(UsecaseFiles {
@@ -172,15 +179,15 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
             let filenames = variant_path
                 .read_dir()
                 .expect("Failed to read store directory")
-                .map(|entry| entry.expect("Failed to read entry").path())
-                .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
-                .map(|path| {
-                    path.file_stem()
-                        .expect("Failed to get file stem")
+                .map(|entry| {
+                    entry
+                        .expect("Failed to read entry")
+                        .file_name()
                         .to_str()
-                        .expect("Failed to convert to str")
+                        .unwrap()
                         .to_string()
                 })
+                .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
                 .collect();
 
             let store_files_detail = StoreFilesDetail {
@@ -198,15 +205,15 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
         let filenames = helper_path
             .read_dir()
             .expect("Failed to read helper directory")
-            .map(|entry| entry.expect("Failed to read entry").path())
-            .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
-            .map(|path| {
-                path.file_stem()
-                    .expect("Failed to get file stem")
+            .map(|entry| {
+                entry
+                    .expect("Failed to read entry")
+                    .file_name()
                     .to_str()
-                    .expect("Failed to convert to str")
+                    .unwrap()
                     .to_string()
             })
+            .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
             .collect();
 
         internal_files.helper = Some(HelperFiles {

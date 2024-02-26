@@ -3,22 +3,17 @@ use ratatui::{
     style::{Color, Style},
     widgets::{Block, BorderType, Borders, Paragraph},
 };
-use std::{io::Result, path::PathBuf};
+use std::io::Result;
 
-use crate::{
-    handle::{
-        lookup::lookup_internal,
-        render::{render_domain_files, render_internal_files},
-    },
-    utils::get_config_file_or_warn,
+use crate::handle::{
+    lookup::lookup_internal,
+    render::{render_domain_files, render_internal_files},
 };
 
 use super::TerminalType;
 
 pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
     terminal.clear()?;
-
-    let config_file = get_config_file_or_warn();
 
     let mut selected_index = 0;
 
