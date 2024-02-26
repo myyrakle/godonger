@@ -135,5 +135,26 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
         internal_files.route = Some(route_files);
     }
 
+    if usecase_path.exists() {
+        let filenames = usecase_path
+            .read_dir()
+            .expect("Failed to read usecase directory")
+            .map(|entry| entry.expect("Failed to read entry").path())
+            .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
+            .map(|path| {
+                path.file_stem()
+                    .expect("Failed to get file stem")
+                    .to_str()
+                    .expect("Failed to convert to str")
+                    .to_string()
+            })
+            .collect();
+
+        internal_files.usecase = Some(UsecaseFiles {
+            dir: config_file.usecase_dir,
+            filenames,
+        });
+    }
+
     internal_files
 }
