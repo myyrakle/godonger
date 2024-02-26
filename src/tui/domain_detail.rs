@@ -5,12 +5,20 @@ use ratatui::{
 };
 use std::{io::Result, path::PathBuf};
 
-use crate::utils::get_config_file_or_warn;
+use crate::{
+    handle::{
+        lookup::lookup_internal,
+        render::{render_domain_files, render_internal_files},
+    },
+    utils::get_config_file_or_warn,
+};
 
 use super::TerminalType;
 
 pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
     terminal.clear()?;
+
+    let config_file = get_config_file_or_warn();
 
     let mut selected_index = 0;
 
@@ -21,21 +29,11 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
         "4. Add New Helper",
     ];
 
-    let domain_files: Vec<String> = crate::handle::lookup::lookup_domain(domain.clone())
-        .into_iter()
-        .map(|path| {
-            let path: PathBuf = path.components().skip(2).collect();
-            path.to_str().unwrap().to_string()
-        })
-        .collect();
+    let domain_files = crate::handle::lookup::lookup_domain(domain.clone());
+    let domain_files_text = render_domain_files(&domain_files);
 
-    let config_file = get_config_file_or_warn();
-
-    let mut domain_files_text = String::new();
-    domain_files_text.push_str(&format!("{}\n", config_file.domain_dir.to_str().unwrap()));
-    for domain_file in domain_files {
-        domain_files_text.push_str(&format!("|-- {}\n", domain_file));
-    }
+    let internal_files = lookup_internal(domain.clone());
+    let internal_files_text = render_internal_files(&internal_files);
 
     let mut render_text = String::new();
     loop {
@@ -48,7 +46,8 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
             }
         }
 
-        render_text.push_str(&format!("\n\n{}", domain_files_text));
+        render_text.push_str(&format!("\n{}", domain_files_text));
+        render_text.push_str(&format!("\n{}", internal_files_text));
 
         let block = Block::default()
             .title(format!("Domain: {}", domain))

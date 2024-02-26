@@ -86,16 +86,17 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
 
     let config_file = get_config_file_or_warn();
 
-    let internal_path = config_file.internal_dir;
+    let mut internal_path = config_file.internal_dir;
+    if !internal_path.exists() {
+        panic!("Internal directory not found")
+    }
 
+    internal_path = internal_path.join(&domain);
     let route_path = internal_path.join(&config_file.route_dir);
     let usecase_path = internal_path.join(&config_file.usecase_dir);
     let store_path = internal_path.join(&config_file.store_dir);
     let helper_path = internal_path.join(&config_file.helper_dir);
 
-    if !internal_path.exists() {
-        panic!("Internal directory not found")
-    }
     internal_files.dir = internal_path;
 
     if route_path.exists() {
