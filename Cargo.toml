@@ -28,8 +28,9 @@ path = "./src/main.rs"
 required-features = ["godonger"]
 
 [[bin]]
-name = "test"
-path = "./src/test.rs"
+name = "gd"
+path = "./src/main.rs"
+required-features = ["godonger"]
 
 [features]
 default = ["godonger"]
