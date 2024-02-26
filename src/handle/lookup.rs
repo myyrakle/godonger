@@ -193,5 +193,26 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
         internal_files.store = Some(store_files);
     }
 
+    if helper_path.exists() {
+        let filenames = helper_path
+            .read_dir()
+            .expect("Failed to read helper directory")
+            .map(|entry| entry.expect("Failed to read entry").path())
+            .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
+            .map(|path| {
+                path.file_stem()
+                    .expect("Failed to get file stem")
+                    .to_str()
+                    .expect("Failed to convert to str")
+                    .to_string()
+            })
+            .collect();
+
+        internal_files.helper = Some(HelperFiles {
+            dir: config_file.helper_dir,
+            filenames,
+        });
+    }
+
     internal_files
 }
