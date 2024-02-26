@@ -5,6 +5,8 @@ use ratatui::{
 };
 use std::{io::Result, path::PathBuf};
 
+use crate::utils::get_config_file_or_warn;
+
 use super::TerminalType;
 
 pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
@@ -27,6 +29,14 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
         })
         .collect();
 
+    let config_file = get_config_file_or_warn();
+
+    let mut domain_files_text = String::new();
+    domain_files_text.push_str(&format!("{}\n", config_file.domain_dir.to_str().unwrap()));
+    for domain_file in domain_files {
+        domain_files_text.push_str(&format!("|-- {}\n", domain_file));
+    }
+
     let mut render_text = String::new();
     loop {
         render_text.clear();
@@ -37,6 +47,8 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                 render_text.push_str(&format!("  {}\n", domain));
             }
         }
+
+        render_text.push_str(&format!("\n\n{}", domain_files_text));
 
         let block = Block::default()
             .title(format!("Domain: {}", domain))
