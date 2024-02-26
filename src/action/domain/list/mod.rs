@@ -1,15 +1,7 @@
-use crate::{
-    command::domain::list::ConfigOptions,
-    config::{self},
-};
+use crate::{command::domain::list::ConfigOptions, utils::get_config_file_or_warn};
 
 pub fn run(_: ConfigOptions) {
-    if !config::exists_config() {
-        eprintln!("Config not found. Please run `init` first.");
-        std::process::exit(1);
-    }
-
-    let config_file = config::load_config();
+    let config_file = get_config_file_or_warn();
 
     let domain_path = config_file.domain_dir;
 
