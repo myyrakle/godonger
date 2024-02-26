@@ -1,6 +1,7 @@
 mod action;
 mod command;
 mod config;
+mod tui;
 
 use clap::Parser;
 use command::{domain, SubCommand};
