@@ -7,27 +7,22 @@ use std::io::Result;
 
 use super::TerminalType;
 
-pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> {
-    let domain_list: Vec<String> = vec![
-        "foo", "bar", "baz", "a", "b", "c", "d", "e", "fff", "asdf", "asdf",
-    ]
-    .into_iter()
-    .map(|s| s.to_string())
-    .collect();
-
-    if domain_list.is_empty() {
-        println!("No domain found");
-        return Ok(());
-    }
-
+pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
     terminal.clear()?;
 
     let mut selected_index = 0;
 
+    let items = vec![
+        "1. Add new API (with usecase)",
+        "2. Add New Usecase",
+        "3. Add New Store",
+        "4. Add New Helper",
+    ];
+
     let mut render_text = String::new();
     loop {
         render_text.clear();
-        for (i, domain) in domain_list.iter().enumerate() {
+        for (i, domain) in items.iter().enumerate() {
             if i == selected_index {
                 render_text.push_str(&format!("▶ {}\n", domain));
             } else {
@@ -36,7 +31,7 @@ pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> 
         }
 
         let block = Block::default()
-            .title("Domain List")
+            .title(format!("Domain: {}", domain))
             .borders(Borders::ALL)
             .border_style(Style::default().fg(Color::Magenta))
             .border_type(BorderType::Rounded);
@@ -56,7 +51,7 @@ pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> 
                             break;
                         }
                         KeyCode::Down => {
-                            if selected_index < domain_list.len() - 1 {
+                            if selected_index < items.len() - 1 {
                                 selected_index += 1;
                             }
                         }
@@ -65,14 +60,10 @@ pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> 
                                 selected_index -= 1;
                             }
                         }
-                        KeyCode::Enter => {
-                            super::domain_detail::run(
-                                terminal,
-                                domain_list[selected_index].clone(),
-                            )?;
-
-                            continue;
+                        KeyCode::Esc => {
+                            break;
                         }
+                        KeyCode::Enter => {}
                         _ => {}
                     }
                 }

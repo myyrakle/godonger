@@ -1,4 +1,8 @@
-use crate::{command::domain::list::ConfigOptions, utils::get_config_file_or_warn};
+use crate::{
+    command::domain::list::ConfigOptions,
+    tui::{enter_tui, exit_tui},
+    utils::get_config_file_or_warn,
+};
 
 pub fn run(_: ConfigOptions) {
     let config_file = get_config_file_or_warn();
@@ -56,5 +60,7 @@ pub fn run(_: ConfigOptions) {
         })
         .collect();
 
-    crate::tui::domain_list::run(domain_list).unwrap();
+    let mut terminal = enter_tui();
+    crate::tui::domain_list::run(&mut terminal, domain_list).unwrap();
+    exit_tui();
 }
