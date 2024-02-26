@@ -156,5 +156,42 @@ pub fn lookup_internal(domain: String) -> InternalFiles {
         });
     }
 
+    if store_path.exists() {
+        let mut store_files = StoreFiles {
+            dir: config_file.store_dir,
+            details: vec![],
+        };
+
+        for variant in config_file.store_variant_list {
+            let variant_path = store_path.join(&variant);
+            if !variant_path.exists() {
+                continue;
+            }
+
+            let filenames = variant_path
+                .read_dir()
+                .expect("Failed to read store directory")
+                .map(|entry| entry.expect("Failed to read entry").path())
+                .filter(|path| path.ends_with(".go") && !path.ends_with("_test.go"))
+                .map(|path| {
+                    path.file_stem()
+                        .expect("Failed to get file stem")
+                        .to_str()
+                        .expect("Failed to convert to str")
+                        .to_string()
+                })
+                .collect();
+
+            let store_files_detail = StoreFilesDetail {
+                dir: variant.into(),
+                filenames,
+            };
+
+            store_files.details.push(store_files_detail);
+        }
+
+        internal_files.store = Some(store_files);
+    }
+
     internal_files
 }
