@@ -27,6 +27,13 @@ impl Default for RootConfig {
     }
 }
 
+impl RootConfig {
+    pub fn write(&self) {
+        let config = serde_yaml::to_string(&self).expect("Failed to serialize config");
+        std::fs::write(CONFIG_DEFAULT_PATH, config).expect("Failed to write config file");
+    }
+}
+
 const CONFIG_DEFAULT_PATH: &str = "./.godonger.yaml";
 
 pub fn load_config() -> RootConfig {

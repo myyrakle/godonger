@@ -1,3 +1,4 @@
+mod action;
 mod command;
 mod config;
 
@@ -8,6 +9,8 @@ fn main() {
     let args = command::Command::parse();
 
     match args.action {
-        SubCommand::Gen(_gen) => {}
+        SubCommand::Init(command) => {
+            action::init::run(command.value);
+        }
     }
 }

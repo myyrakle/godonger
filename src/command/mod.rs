@@ -1,8 +1,6 @@
-mod gen;
+pub mod init;
 
 use clap::Parser;
-
-use self::gen::GenCommand;
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -13,5 +11,5 @@ pub struct Command {
 
 #[derive(clap::Subcommand, Debug)]
 pub enum SubCommand {
-    Gen(GenCommand),
+    Init(init::Command),
 }

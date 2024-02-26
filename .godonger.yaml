@@ -1,0 +1,4 @@
+domain_dir: ./domain
+internal_dir: ./internal
+entrypoint_file: ./cmd/main.go
+framework: echo
