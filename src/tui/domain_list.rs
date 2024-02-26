@@ -8,12 +8,12 @@ use std::io::Result;
 use super::TerminalType;
 
 pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> {
-    let domain_list: Vec<String> = vec![
-        "foo", "bar", "baz", "a", "b", "c", "d", "e", "fff", "asdf", "asdf",
-    ]
-    .into_iter()
-    .map(|s| s.to_string())
-    .collect();
+    // let domain_list: Vec<String> = vec![
+    //     "foo", "bar", "baz", "a", "b", "c", "d", "e", "fff", "asdf", "asdf",
+    // ]
+    // .into_iter()
+    // .map(|s| s.to_string())
+    // .collect();
 
     if domain_list.is_empty() {
         println!("No domain found");

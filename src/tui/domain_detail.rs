@@ -5,6 +5,11 @@ use ratatui::{
 };
 use std::io::Result;
 
+use crate::handle::{
+    lookup::lookup_internal,
+    render::{render_domain_files, render_internal_files},
+};
+
 use super::TerminalType;
 
 pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
@@ -13,11 +18,17 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
     let mut selected_index = 0;
 
     let items = vec![
-        "1. Add new API (with usecase)",
+        "1. Add New API (with usecase)",
         "2. Add New Usecase",
         "3. Add New Store",
         "4. Add New Helper",
     ];
+
+    let domain_files = crate::handle::lookup::lookup_domain(domain.clone());
+    let domain_files_text = render_domain_files(&domain_files);
+
+    let internal_files = lookup_internal(domain.clone());
+    let internal_files_text = render_internal_files(&internal_files);
 
     let mut render_text = String::new();
     loop {
@@ -29,6 +40,9 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                 render_text.push_str(&format!("  {}\n", domain));
             }
         }
+
+        render_text.push_str(&format!("\n{}", domain_files_text));
+        render_text.push_str(&format!("\n{}", internal_files_text));
 
         let block = Block::default()
             .title(format!("Domain: {}", domain))
