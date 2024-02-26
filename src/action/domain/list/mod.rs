@@ -23,9 +23,9 @@ pub fn run(_: ConfigOptions) {
             .collect()
     };
 
-    let dto_file_suffix = "_".to_owned() + &config_file.dto_file_suffix;
-    let model_file_suffix = "_".to_owned() + &config_file.model_file_suffix;
-    let args_file_suffix = "_".to_owned() + &config_file.args_file_suffix;
+    let dto_file_suffix = &config_file.dto_file_suffix;
+    let model_file_suffix = &config_file.model_file_suffix;
+    let args_file_suffix = &config_file.args_file_suffix;
 
     let domain_list: Vec<String> = domain_file_path_list
         .iter()
@@ -42,16 +42,22 @@ pub fn run(_: ConfigOptions) {
                 return None;
             }
 
-            if name.ends_with(&dto_file_suffix) {
+            if name.ends_with(dto_file_suffix) {
                 return None;
             }
 
-            if name.ends_with(&model_file_suffix) {
+            if name.ends_with(model_file_suffix) {
                 return None;
             }
 
-            if name.ends_with(&args_file_suffix) {
+            if name.ends_with(args_file_suffix) {
                 return None;
+            }
+
+            for exclude in &config_file.exclude_file_suffix_list {
+                if name.ends_with(exclude) {
+                    return None;
+                }
             }
 
             Some(name.into())
