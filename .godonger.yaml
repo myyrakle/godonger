@@ -1,4 +1,16 @@
 domain_dir: ./domain
 internal_dir: ./internal
 entrypoint_file: ./cmd/main.go
+handler_struct_suffix: Handler
+usecase_struct_suffix: Usecase
+usecase_interface_suffix: Usecase
+store_struct_suffix: Store
+store_interface_suffix: Store
+store_variant_list:
+- Memory
+- Mongo
+- Postgresql
+- Http
+helper_struct_suffix: Helper
+helper_interface_suffix: Helper
 framework: echo
