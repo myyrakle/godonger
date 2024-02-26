@@ -3,7 +3,7 @@ mod command;
 mod config;
 
 use clap::Parser;
-use command::SubCommand;
+use command::{domain, SubCommand};
 
 fn main() {
     let args = command::Command::parse();
@@ -12,5 +12,10 @@ fn main() {
         SubCommand::Init(command) => {
             action::init::run(command.value);
         }
+        SubCommand::Domain(command) => match command.action {
+            domain::SubCommand::List(command) => {
+                action::domain::list::run(command.value);
+            }
+        },
     }
 }

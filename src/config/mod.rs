@@ -10,44 +10,44 @@ pub enum Framework {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct RootConfig {
-    domain_dir: PathBuf,
-    internal_dir: PathBuf,
+    pub domain_dir: PathBuf,
+    pub internal_dir: PathBuf,
 
-    entrypoint_file: PathBuf,
+    pub entrypoint_file: PathBuf,
 
-    handler_struct_suffix: String,
-    handler_file_suffix: String,
-    handler_dir: PathBuf,
+    pub handler_struct_suffix: String,
+    pub handler_file_suffix: String,
+    pub handler_dir: PathBuf,
 
-    usecase_struct_suffix: String,
-    usecase_interface_suffix: String,
-    usecase_file_suffix: String,
-    usecase_dir: PathBuf,
+    pub usecase_struct_suffix: String,
+    pub usecase_interface_suffix: String,
+    pub usecase_file_suffix: String,
+    pub usecase_dir: PathBuf,
 
-    request_dto_struct_suffix: String,
-    response_dto_struct_suffix: String,
+    pub request_dto_struct_suffix: String,
+    pub response_dto_struct_suffix: String,
 
-    store_variant_list: Vec<String>,
-    store_struct_suffix: String,
-    store_interface_suffix: String,
-    store_file_suffix: String,
-    store_dir: PathBuf,
+    pub store_variant_list: Vec<String>,
+    pub store_struct_suffix: String,
+    pub store_interface_suffix: String,
+    pub store_file_suffix: String,
+    pub store_dir: PathBuf,
 
-    params_struct_suffix: String,
+    pub params_struct_suffix: String,
 
-    helper_struct_suffix: String,
-    helper_interface_suffix: String,
-    helper_file_suffix: String,
-    helper_dir: PathBuf,
+    pub helper_struct_suffix: String,
+    pub helper_interface_suffix: String,
+    pub helper_file_suffix: String,
+    pub helper_dir: PathBuf,
 
-    args_struct_suffix: String,
-    result_struct_suffix: String,
+    pub args_struct_suffix: String,
+    pub result_struct_suffix: String,
 
-    dto_file_suffix: String,
-    model_file_suffix: String,
-    args_file_suffix: String,
+    pub dto_file_suffix: String,
+    pub model_file_suffix: String,
+    pub args_file_suffix: String,
 
-    framework: Framework,
+    pub framework: Framework,
 }
 
 impl Default for RootConfig {

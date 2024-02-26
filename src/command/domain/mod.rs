@@ -1,6 +1,4 @@
-pub mod domain;
-pub mod init;
-
+pub mod list;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
@@ -12,6 +10,5 @@ pub struct Command {
 
 #[derive(clap::Subcommand, Debug)]
 pub enum SubCommand {
-    Init(init::Command),
-    Domain(domain::Command),
+    List(list::Command),
 }
