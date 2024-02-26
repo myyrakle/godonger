@@ -3,7 +3,7 @@ use ratatui::{
     style::{Color, Style},
     widgets::{Block, BorderType, Borders, Paragraph},
 };
-use std::io::Result;
+use std::{io::Result, path::PathBuf};
 
 use super::TerminalType;
 
@@ -13,11 +13,19 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
     let mut selected_index = 0;
 
     let items = vec![
-        "1. Add new API (with usecase)",
+        "1. Add New API (with usecase)",
         "2. Add New Usecase",
         "3. Add New Store",
         "4. Add New Helper",
     ];
+
+    let domain_files: Vec<String> = crate::handle::lookup::lookup_domain(domain.clone())
+        .into_iter()
+        .map(|path| {
+            let path: PathBuf = path.components().skip(2).collect();
+            path.to_str().unwrap().to_string()
+        })
+        .collect();
 
     let mut render_text = String::new();
     loop {
