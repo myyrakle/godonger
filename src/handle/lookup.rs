@@ -32,11 +32,11 @@ pub fn lookup_domain(domain: String) -> Vec<PathBuf> {
 }
 
 pub struct InternalFiles {
-    dir: PathBuf,
-    route: Option<RouteFiles>,
-    usecase: Option<UsecaseFiles>,
-    store: Option<StoreFiles>,
-    helper: Option<HelperFiles>,
+    pub dir: PathBuf,
+    pub route: Option<RouteFiles>,
+    pub usecase: Option<UsecaseFiles>,
+    pub store: Option<StoreFiles>,
+    pub helper: Option<HelperFiles>,
 }
 
 impl Default for InternalFiles {
@@ -52,33 +52,33 @@ impl Default for InternalFiles {
 }
 
 pub struct RouteFiles {
-    dir: PathBuf,
-    details: Vec<RouteFilesDetail>,
+    pub dir: PathBuf,
+    pub details: Vec<RouteFilesDetail>,
 }
 
 pub struct RouteFilesDetail {
-    dir: PathBuf,
-    filenames: Vec<String>,
+    pub dir: PathBuf,
+    pub filenames: Vec<String>,
 }
 
 pub struct StoreFiles {
-    dir: PathBuf,
-    details: Vec<StoreFilesDetail>,
+    pub dir: PathBuf,
+    pub details: Vec<StoreFilesDetail>,
 }
 
 pub struct StoreFilesDetail {
-    dir: PathBuf,
-    filenames: Vec<String>,
+    pub dir: PathBuf,
+    pub filenames: Vec<String>,
 }
 
 pub struct UsecaseFiles {
-    dir: PathBuf,
-    filenames: Vec<String>,
+    pub dir: PathBuf,
+    pub filenames: Vec<String>,
 }
 
 pub struct HelperFiles {
-    dir: PathBuf,
-    filenames: Vec<String>,
+    pub dir: PathBuf,
+    pub filenames: Vec<String>,
 }
 
 pub fn lookup_internal(domain: String) -> InternalFiles {
