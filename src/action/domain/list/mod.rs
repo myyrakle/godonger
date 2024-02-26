@@ -3,6 +3,8 @@ use crate::{
     config::{self},
 };
 
+mod tui;
+
 pub fn run(_: ConfigOptions) {
     if !config::exists_config() {
         eprintln!("Config not found. Please run `init` first.");
@@ -64,5 +66,5 @@ pub fn run(_: ConfigOptions) {
         })
         .collect();
 
-    println!("{:?}", domain_list);
+    tui::run(domain_list).unwrap();
 }

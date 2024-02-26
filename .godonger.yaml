@@ -2,15 +2,33 @@ domain_dir: ./domain
 internal_dir: ./internal
 entrypoint_file: ./cmd/main.go
 handler_struct_suffix: Handler
+handler_file_suffix: _handler
+handler_dir: route
 usecase_struct_suffix: Usecase
 usecase_interface_suffix: Usecase
-store_struct_suffix: Store
-store_interface_suffix: Store
+usecase_file_suffix: _usecase
+usecase_dir: usecase
+request_dto_struct_suffix: Request
+response_dto_struct_suffix: Response
 store_variant_list:
 - Memory
 - Mongo
 - Postgresql
 - Http
+store_struct_suffix: Store
+store_interface_suffix: Store
+store_file_suffix: _store
+store_dir: store
+params_struct_suffix: Params
 helper_struct_suffix: Helper
 helper_interface_suffix: Helper
+helper_file_suffix: _helper
+helper_dir: helper
+args_struct_suffix: Args
+result_struct_suffix: Result
+dto_file_suffix: _dto
+model_file_suffix: _model
+args_file_suffix: _args
+exclude_file_suffix_list:
+- _field
 framework: echo
