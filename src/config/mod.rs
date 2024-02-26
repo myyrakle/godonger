@@ -12,22 +12,34 @@ pub enum Framework {
 pub struct RootConfig {
     domain_dir: PathBuf,
     internal_dir: PathBuf,
+
     entrypoint_file: PathBuf,
 
     handler_struct_suffix: String,
+    handler_file_suffix: String,
+    handler_dir: PathBuf,
 
     usecase_struct_suffix: String,
     usecase_interface_suffix: String,
+    usecase_file_suffix: String,
+    usecase_dir: PathBuf,
+
     request_dto_struct_suffix: String,
     response_dto_struct_suffix: String,
 
     store_variant_list: Vec<String>,
     store_struct_suffix: String,
     store_interface_suffix: String,
+    store_file_suffix: String,
+    store_dir: PathBuf,
+
     params_struct_suffix: String,
 
     helper_struct_suffix: String,
     helper_interface_suffix: String,
+    helper_file_suffix: String,
+    helper_dir: PathBuf,
+
     args_struct_suffix: String,
     result_struct_suffix: String,
 
@@ -65,6 +77,14 @@ impl Default for RootConfig {
             dto_file_suffix: "dto".to_string(),
             model_file_suffix: "model".to_string(),
             args_file_suffix: "args".to_string(),
+            handler_file_suffix: "handler".to_string(),
+            usecase_file_suffix: "usecase".to_string(),
+            store_file_suffix: "store".to_string(),
+            helper_file_suffix: "helper".to_string(),
+            usecase_dir: PathBuf::new().join("usecase"),
+            handler_dir: PathBuf::new().join("route"),
+            store_dir: PathBuf::new().join("store"),
+            helper_dir: PathBuf::new().join("helper"),
             framework: Framework::Echo,
         }
     }
