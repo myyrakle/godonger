@@ -31,6 +31,10 @@ pub struct RootConfig {
     args_struct_suffix: String,
     result_struct_suffix: String,
 
+    dto_file_suffix: String,
+    model_file_suffix: String,
+    args_file_suffix: String,
+
     framework: Framework,
 }
 
@@ -58,6 +62,9 @@ impl Default for RootConfig {
             params_struct_suffix: "Params".to_string(),
             args_struct_suffix: "Args".to_string(),
             result_struct_suffix: "Result".to_string(),
+            dto_file_suffix: "dto".to_string(),
+            model_file_suffix: "model".to_string(),
+            args_file_suffix: "args".to_string(),
             framework: Framework::Echo,
         }
     }
