@@ -5,9 +5,12 @@ use ratatui::{
 };
 use std::io::Result;
 
-use crate::handle::{
-    lookup::lookup_internal,
-    render::{render_domain_files, render_internal_files},
+use crate::{
+    handle::{
+        lookup::lookup_internal,
+        render::{render_domain_files, render_internal_files},
+    },
+    utils::get_scroll_point,
 };
 
 use super::TerminalType;
@@ -50,7 +53,9 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
             .border_style(Style::default().fg(Color::Magenta))
             .border_type(BorderType::Rounded);
 
-        let paragraph = Paragraph::new(render_text.clone()).block(block);
+        let paragraph = Paragraph::new(render_text.clone())
+            .block(block)
+            .scroll(get_scroll_point(selected_index));
 
         terminal.draw(|frame| {
             let area = frame.size();
