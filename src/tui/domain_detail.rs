@@ -85,7 +85,12 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                         KeyCode::Esc => {
                             break;
                         }
-                        KeyCode::Enter => {}
+                        KeyCode::Enter => match selected_index {
+                            0 => {
+                                crate::tui::new_api::run(terminal, domain.clone())?;
+                            }
+                            _ => {}
+                        },
                         _ => {}
                     }
                 }
