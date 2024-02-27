@@ -22,9 +22,12 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
 
     let items = vec![
         "1. Add New API (with usecase)",
-        "2. Add New Usecase",
-        "3. Add New Store",
-        "4. Add New Helper",
+        "2. Add Method To Usecase",
+        "3. Add Method To Store",
+        "4. Add Method To Helper",
+        "5. Add New Usecase",
+        "6. Add New Store",
+        "7. Add New Helper",
     ];
 
     let domain_files = crate::handle::lookup::lookup_domain(domain.clone());
