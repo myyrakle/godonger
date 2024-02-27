@@ -81,3 +81,40 @@ pub fn create_handler_file_if_not_exists(domain: String) {
         code.push_str("}\n");
     }
 }
+
+pub fn create_usecase_file_if_not_exists(domain: String) {
+    let config_file = get_config_file_or_warn();
+
+    let usecase_filename = domain.as_str().to_case(Case::Snake) + &config_file.usecase_file_suffix;
+
+    let usecase_filepath = config_file
+        .internal_dir
+        .join(domain.clone())
+        .join(&config_file.usecase_dir)
+        .join(&usecase_filename);
+
+    if !usecase_filepath.exists() {
+        let package_name = "usecase".to_string();
+
+        let usecase_struct_name =
+            domain.as_str().to_case(Case::Camel) + &config_file.usecase_struct_suffix;
+
+        let usecase_interface_name =
+            domain.as_str().to_case(Case::Pascal) + &config_file.usecase_interface_suffix;
+
+        let mut code = String::new();
+
+        code.push_str(format!("package {package_name}\n\n").as_str());
+
+        code.push_str(format!("type {usecase_struct_name} struct {{\n").as_str());
+        code.push_str("}\n\n");
+
+        code.push_str(format!("func New() domain.{usecase_interface_name} {{\n").as_str());
+        code.push_str(format!("    usecase := &{handler_type}{{\n",).as_str());
+        code.push_str(format!("        {usecase_field_name}: {usecase_field_name},\n",).as_str());
+        code.push_str("    }\n\n");
+
+        code.push_str("    return handler\n");
+        code.push_str("}\n");
+    }
+}
