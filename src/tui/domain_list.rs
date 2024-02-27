@@ -5,6 +5,8 @@ use ratatui::{
 };
 use std::io::Result;
 
+use crate::utils::get_scroll_point;
+
 use super::TerminalType;
 
 pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> {
@@ -41,7 +43,9 @@ pub fn run(terminal: &mut TerminalType, domain_list: Vec<String>) -> Result<()> 
             .border_style(Style::default().fg(Color::Magenta))
             .border_type(BorderType::Rounded);
 
-        let paragraph = Paragraph::new(render_text.clone()).block(block);
+        let paragraph = Paragraph::new(render_text.clone())
+            .block(block)
+            .scroll(get_scroll_point(selected_index));
 
         terminal.draw(|frame| {
             let area = frame.size();
