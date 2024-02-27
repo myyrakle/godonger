@@ -14,6 +14,7 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
 
     let mut step = 0;
 
+    let mut api_group = "".to_string();
     let mut api_path = "/".to_string();
     let mut method_name = String::new();
 
@@ -23,10 +24,14 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
 
         match step {
             0 => {
+                render_text.push_str("Enter API Group: ");
+                render_text.push_str(&api_group);
+            }
+            1 => {
                 render_text.push_str("Enter API Path: ");
                 render_text.push_str(&api_path);
             }
-            1 => {
+            2 => {
                 render_text.push_str("Enter Method Name: ");
                 render_text.push_str(&method_name);
             }
@@ -52,9 +57,12 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                     match key.code {
                         KeyCode::Char(c) => match step {
                             0 => {
-                                api_path.push(c);
+                                api_group.push(c);
                             }
                             1 => {
+                                api_path.push(c);
+                            }
+                            2 => {
                                 method_name.push(c);
                             }
                             _ => {}
@@ -64,11 +72,16 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                         }
                         KeyCode::Backspace => match step {
                             0 => {
+                                if !api_group.is_empty() {
+                                    api_group.pop();
+                                }
+                            }
+                            1 => {
                                 if !api_path.is_empty() {
                                     api_path.pop();
                                 }
                             }
-                            1 => {
+                            2 => {
                                 if !method_name.is_empty() {
                                     method_name.pop();
                                 }
@@ -76,10 +89,10 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                             _ => {}
                         },
                         KeyCode::Enter => match step {
-                            0 => {
-                                step = 1;
+                            0 | 1 => {
+                                step += 1;
                             }
-                            1 => {
+                            2 => {
                                 handle::api::new_api(
                                     domain.clone(),
                                     api_path.clone(),
