@@ -2,7 +2,7 @@ pub mod list;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
-#[clap(author, version, about, long_about = None)]
+#[clap(author, version, about = "Domain-related commands")]
 pub struct Command {
     #[clap(subcommand)]
     pub action: SubCommand,

@@ -2,7 +2,7 @@ pub mod new;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
-#[clap(author, version, about, long_about = None)]
+#[clap(author, version, about = "API-related commands")]
 pub struct Command {
     #[clap(subcommand)]
     pub action: SubCommand,
