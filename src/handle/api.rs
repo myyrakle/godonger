@@ -1,7 +1,8 @@
 use super::create_files::{
-    add_usecase_interface_to_domain_file_if_not_exists, create_domain_file_if_not_exists,
+     create_domain_file_if_not_exists,
     create_handler_file_if_not_exists, create_usecase_file_if_not_exists,
 };
+use super::edit_files::add_usecase_interface_to_domain_file_if_not_exists;
 
 pub fn new_api(domain: String, api_path: String, method_name: String) {
     // 1. create domain file if not exists

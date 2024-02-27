@@ -16,26 +16,7 @@ pub fn create_domain_file_if_not_exists(domain: String) {
     }
 }
 
-pub fn add_usecase_interface_to_domain_file_if_not_exists(domain: String) {
-    let config_file = get_config_file_or_warn();
 
-    let domain_file_path = config_file.domain_dir.join(domain.clone() + ".go");
-
-    let usecase_interface_name =
-        domain.as_str().to_case(Case::Pascal) + &config_file.usecase_interface_suffix;
-
-    let mut domain_file_content = fs::read_to_string(&domain_file_path).unwrap();
-
-    if !domain_file_content.contains(&usecase_interface_name) {
-        domain_file_content.push_str("\n\n");
-
-        domain_file_content.push_str(format!(r#"// {usecase_interface_name}\n"#).as_str());
-        domain_file_content
-            .push_str(format!(r#"type {usecase_interface_name} interface {{}}"#).as_str());
-
-        fs::write(domain_file_path, domain_file_content).unwrap();
-    }
-}
 
 pub fn create_handler_file_if_not_exists(domain: String) {
     let config_file = get_config_file_or_warn();
@@ -110,8 +91,8 @@ pub fn create_usecase_file_if_not_exists(domain: String) {
         code.push_str("}\n\n");
 
         code.push_str(format!("func New() domain.{usecase_interface_name} {{\n").as_str());
-        code.push_str(format!("    usecase := &{handler_type}{{\n",).as_str());
-        code.push_str(format!("        {usecase_field_name}: {usecase_field_name},\n",).as_str());
+        code.push_str(format!("    usecase := &{usecase_struct_name}{{\n",).as_str());
+        code.push_str(format!("        {usecase_filename}: {usecase_filename},\n",).as_str());
         code.push_str("    }\n\n");
 
         code.push_str("    return handler\n");
