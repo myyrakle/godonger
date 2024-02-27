@@ -1,3 +1,4 @@
+pub mod api;
 pub mod domain;
 pub mod init;
 
@@ -14,4 +15,5 @@ pub struct Command {
 pub enum SubCommand {
     Init(init::Command),
     Domain(domain::Command),
+    API(api::Command),
 }

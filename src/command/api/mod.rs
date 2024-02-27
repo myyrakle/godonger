@@ -1,4 +1,4 @@
-pub mod list;
+pub mod new;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
@@ -10,5 +10,5 @@ pub struct Command {
 
 #[derive(clap::Subcommand, Debug)]
 pub enum SubCommand {
-    New(list::Command),
+    New(new::Command),
 }

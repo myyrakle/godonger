@@ -1,5 +1,5 @@
 use crate::{
-    command::domain::list::ConfigOptions,
+    command::api::new::ConfigOptions,
     tui::{enter_tui, exit_tui},
     utils::get_config_file_or_warn,
 };
