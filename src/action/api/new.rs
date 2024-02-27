@@ -1,13 +1,10 @@
 use crate::{
     command::api::new::ConfigOptions,
-    tui::{enter_tui, exit_tui},
-    utils::get_config_file_or_warn,
+    tui::{self, enter_tui, exit_tui},
 };
 
-pub fn run(_: ConfigOptions) {
-    let config_file = get_config_file_or_warn();
-
+pub fn run(option: ConfigOptions) {
     let mut terminal = enter_tui();
-    //crate::tui::domain_list::run(&mut terminal, domain_list).unwrap();
+    tui::new_api::run(&mut terminal, option.domain).unwrap();
     exit_tui();
 }

@@ -9,6 +9,7 @@ use ratatui::Terminal;
 
 pub mod domain_detail;
 pub mod domain_list;
+pub mod new_api;
 
 type TerminalType = Terminal<CrosstermBackend<Stdout>>;
 
