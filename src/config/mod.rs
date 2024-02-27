@@ -19,6 +19,7 @@ pub struct RootConfig {
     pub route_struct_suffix: String,
     pub route_file_suffix: String,
     pub route_dir: PathBuf,
+    pub route_http_dir: PathBuf,
 
     pub usecase_struct_suffix: String,
     pub usecase_interface_suffix: String,
@@ -87,6 +88,7 @@ impl Default for RootConfig {
             exclude_file_suffix_list: vec!["_field".to_string()],
             usecase_dir: PathBuf::new().join("usecase"),
             route_dir: PathBuf::new().join("route"),
+            route_http_dir: PathBuf::new().join("http"),
             store_dir: PathBuf::new().join("store"),
             helper_dir: PathBuf::new().join("helper"),
             framework: Framework::Echo,
