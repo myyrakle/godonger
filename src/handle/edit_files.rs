@@ -4,7 +4,7 @@ use crate::utils::get_config_file_or_warn;
 
 use super::boilerplates::{
     find_interface_and_append_method, generate_usecase_interface_method,
-    generate_usecase_interface_type,
+    generate_usecase_interface_type, generate_usecase_method,
 };
 
 pub fn add_usecase_interface_to_domain_file_if_not_exists(domain: String) {
@@ -51,12 +51,12 @@ pub fn add_method_to_usecase_interface_of_domain_file(domain: String, method_nam
     }
 }
 
-pub fn add_method_to_usecase_of_usecase_file(domain: String, method_name: String) {
+pub fn add_method_to_usecase_of_usecase_file(domain: &str, method_name: &str) {
     let config_file = get_config_file_or_warn();
 
-    let usecase_file_path = config_file.usecase_dir.join(domain.clone() + ".go");
+    let usecase_file_path = config_file.usecase_dir.join(domain.to_owned() + ".go");
 
-    let method_code = generate_usecase_interface_method(method_name, true, &config_file);
+    let method_code = generate_usecase_method(domain, method_name, true, &config_file);
 
     let mut usecase_file_content = fs::read_to_string(&usecase_file_path).unwrap();
 

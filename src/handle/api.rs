@@ -24,7 +24,7 @@ pub fn new_api(domain: String, api_path: String, method_name: String) {
     add_method_to_usecase_interface_of_domain_file(domain.clone(), method_name.clone());
 
     // 6. add method to usecase file
-    add_method_to_usecase_of_usecase_file(domain.clone(), method_name.clone());
+    add_method_to_usecase_of_usecase_file(&domain, &method_name);
 
     // 7. add method to handler file
 }

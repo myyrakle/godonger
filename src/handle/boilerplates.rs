@@ -86,23 +86,34 @@ pub fn find_interface_and_append_method(
 }
 
 pub fn generate_usecase_method(
-    method_name: String,
+    domain: &str,
+    method_name: &str,
     has_response: bool,
     config_file: &RootConfig,
 ) -> String {
-    let method_name = method_name.as_str().to_case(Case::Pascal);
+    let method_name = method_name.to_case(Case::Pascal);
 
     let request_dto_type = generate_request_dto_type(method_name.clone(), config_file);
 
-    let method_signature = if has_response {
+    let usecase_struct_type = generate_usecase_struct_name(domain, config_file);
+
+    let mut new_code = String::new();
+    if has_response {
         let response_dto_type = generate_response_dto_type(method_name.clone(), config_file);
 
-        format!(
-            r#"{method_name}(ctx context.Context, request {request_dto_type}) ({response_dto_type}, error)"#
-        )
+        new_code.push_str(
+            format!("func (u {usecase_struct_type}) {method_name}(ctx context.Context, request {request_dto_type}) ({response_dto_type}, error) {{\n")
+                .as_str(),
+        );
     } else {
-        format!(r#"func () {method_name}(ctx context.Context) error"#)
+        new_code.push_str(
+            format!("func (u {usecase_struct_type}) {method_name}(ctx context.Context, request {request_dto_type}) error {{\n")
+                .as_str(),
+        );
     };
 
-    method_signature
+    new_code.push_str(r#"    panic("unimplemented")\n"#);
+    new_code.push_str("}\n\n");
+
+    new_code
 }
