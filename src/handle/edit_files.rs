@@ -50,3 +50,18 @@ pub fn add_method_to_usecase_interface_of_domain_file(domain: String, method_nam
         panic!("usecase interface {usecase_interface_type} not found in domain file")
     }
 }
+
+pub fn add_method_to_usecase_of_usecase_file(domain: String, method_name: String) {
+    let config_file = get_config_file_or_warn();
+
+    let usecase_file_path = config_file.usecase_dir.join(domain.clone() + ".go");
+
+    let method_code = generate_usecase_interface_method(method_name, true, &config_file);
+
+    let mut usecase_file_content = fs::read_to_string(&usecase_file_path).unwrap();
+
+    usecase_file_content.push_str("\n\n");
+    usecase_file_content.push_str(&method_code);
+
+    fs::write(usecase_file_path, usecase_file_content).unwrap();
+}

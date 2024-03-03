@@ -1,6 +1,12 @@
 use crate::config::RootConfig;
 use convert_case::{Case, Casing};
 
+pub fn generate_usecase_struct_name(domain: &str, config_file: &RootConfig) -> String {
+    let usecase_struct_name = domain.to_case(Case::Camel) + &config_file.usecase_struct_suffix;
+
+    usecase_struct_name
+}
+
 pub fn generate_usecase_interface_type(domain: String, config_file: &RootConfig) -> String {
     let usecase_interface_name =
         domain.as_str().to_case(Case::Pascal) + &config_file.usecase_interface_suffix;
@@ -77,4 +83,26 @@ pub fn find_interface_and_append_method(
     new_content.push_str(brace_splited_pair.1.as_str());
 
     new_content
+}
+
+pub fn generate_usecase_method(
+    method_name: String,
+    has_response: bool,
+    config_file: &RootConfig,
+) -> String {
+    let method_name = method_name.as_str().to_case(Case::Pascal);
+
+    let request_dto_type = generate_request_dto_type(method_name.clone(), config_file);
+
+    let method_signature = if has_response {
+        let response_dto_type = generate_response_dto_type(method_name.clone(), config_file);
+
+        format!(
+            r#"{method_name}(ctx context.Context, request {request_dto_type}) ({response_dto_type}, error)"#
+        )
+    } else {
+        format!(r#"func () {method_name}(ctx context.Context) error"#)
+    };
+
+    method_signature
 }

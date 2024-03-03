@@ -3,7 +3,7 @@ use super::create_files::{
     create_usecase_file_if_not_exists,
 };
 use super::edit_files::{
-    add_method_to_usecase_interface_of_domain_file,
+    add_method_to_usecase_interface_of_domain_file, add_method_to_usecase_of_usecase_file,
     add_usecase_interface_to_domain_file_if_not_exists,
 };
 
@@ -24,6 +24,7 @@ pub fn new_api(domain: String, api_path: String, method_name: String) {
     add_method_to_usecase_interface_of_domain_file(domain.clone(), method_name.clone());
 
     // 6. add method to usecase file
+    add_method_to_usecase_of_usecase_file(domain.clone(), method_name.clone());
 
     // 7. add method to handler file
 }
