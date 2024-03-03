@@ -1,5 +1,3 @@
-use std::str::pattern::Pattern;
-
 use crate::config::{self, RootConfig};
 
 pub fn get_config_file_or_warn() -> RootConfig {
@@ -21,7 +19,7 @@ pub fn get_scroll_point(selected_index: usize) -> (u16, u16) {
     (vertical, 0)
 }
 
-pub fn split_to_pair<'a, P>(s: String, pattern: &str) -> Option<(String, String)> {
+pub fn split_to_pair(s: &str, pattern: &str) -> Option<(String, String)> {
     let mut split = s.split(pattern);
 
     let first = split.next()?.to_owned();
