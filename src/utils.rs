@@ -18,17 +18,3 @@ pub fn get_scroll_point(selected_index: usize) -> (u16, u16) {
 
     (vertical, 0)
 }
-
-pub fn split_to_pair(s: &str, pattern: &str) -> Option<(String, String)> {
-    let mut split = s.split(pattern);
-
-    let first = split.next()?.to_owned();
-
-    let mut second = split.next()?.to_owned();
-
-    while let Some(s) = split.next() {
-        second = second.to_string() + s;
-    }
-
-    Some((first, second))
-}
