@@ -11,20 +11,26 @@ pub fn new_api(domain: String, api_path: String, method_name: String) {
     // 1. create domain file if not exists
     create_domain_file_if_not_exists(domain.clone());
 
-    // 2. add usecase interface to domain file if not exists
+    // 2. create domain dto file if not exists
+    // create_domain_dto_file_if_not_exists(domain.clone());
+
+    // 3. add DTO typs to domain file
+    // add_dto_types_to_domain_file(domain.clone());
+
+    // 4. add usecase interface to domain file if not exists
     add_usecase_interface_to_domain_file_if_not_exists(domain.clone());
 
-    // 3. create handler file if not exists
+    // 5. create handler file if not exists
     create_handler_file_if_not_exists(domain.clone());
 
-    // 4. create usecase file if not exists
+    // 6. create usecase file if not exists
     create_usecase_file_if_not_exists(domain.clone());
 
-    // 5. add method to usecase interface of domain file
+    // 7. add method to usecase interface of domain file
     add_method_to_usecase_interface_of_domain_file(domain.clone(), method_name.clone());
 
-    // 6. add method to usecase file
+    // 8. add method to usecase file
     add_method_to_usecase_of_usecase_file(&domain, &method_name);
 
-    // 7. add method to handler file
+    // 9. add method to handler file
 }
