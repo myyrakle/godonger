@@ -1,4 +1,4 @@
-use crate::{config::RootConfig, utils::split_to_pair};
+use crate::config::RootConfig;
 use convert_case::{Case, Casing};
 
 pub fn generate_usecase_interface_type(domain: String, config_file: &RootConfig) -> String {
