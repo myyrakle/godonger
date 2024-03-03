@@ -2,14 +2,14 @@ use std::fs;
 
 use crate::utils::get_config_file_or_warn;
 
-use super::boilerplates::generate_usecase_interface_name;
+use super::boilerplates::{generate_usecase_interface_method, generate_usecase_interface_type};
 
 pub fn add_usecase_interface_to_domain_file_if_not_exists(domain: String) {
     let config_file = get_config_file_or_warn();
 
     let domain_file_path = config_file.domain_dir.join(domain.clone() + ".go");
 
-    let usecase_interface_name = generate_usecase_interface_name(domain.clone(), &config_file);
+    let usecase_interface_name = generate_usecase_interface_type(domain.clone(), &config_file);
 
     let mut domain_file_content = fs::read_to_string(&domain_file_path).unwrap();
 
@@ -29,25 +29,19 @@ pub fn add_method_to_usecase_interface_of_domain_file(domain: String, method_nam
 
     let domain_file_path = config_file.domain_dir.join(domain.clone() + ".go");
 
-    let usecase_interface_name = generate_usecase_interface_name(domain.clone(), &config_file);
+    let usecase_interface_type = generate_usecase_interface_type(domain.clone(), &config_file);
 
-    let mut domain_file_content = fs::read_to_string(&domain_file_path).unwrap();
+    let domain_file_content = fs::read_to_string(&domain_file_path).unwrap();
 
-    if domain_file_content.contains(&usecase_interface_name) {
-        let usecase_interface_name = usecase_interface_name.as_str();
+    let method_code = generate_usecase_interface_method(method_name, true, &config_file);
 
-        let method_name = method_name.as_str();
+    if let Some(_) = domain_file_content.find(&usecase_interface_type) {
+        let mut splited = domain_file_content.split(&usecase_interface_type);
 
-        let method_signature = format!(r#"{}() (string, error)"#, method_name);
+        let mut new_content = String::new();
 
-        if !domain_file_content.contains(&method_signature) {
-            domain_file_content.push_str("\n\n");
-
-            domain_file_content.push_str(format!(r#"    // {}"#, method_name).as_str());
-            domain_file_content.push_str("\n");
-            domain_file_content.push_str(format!(r#"    {}"#, method_signature).as_str());
-
-            fs::write(domain_file_path, domain_file_content).unwrap();
-        }
+        new_content.push_str(splited.next().unwrap());
+    } else {
+        panic!("usecase interface {usecase_interface_type} not found in domain file")
     }
 }
