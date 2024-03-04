@@ -3,11 +3,11 @@ use super::create_files::{
     create_handler_file_if_not_exists, create_usecase_file_if_not_exists,
 };
 use super::edit_files::{
-    add_method_to_usecase_interface_of_domain_file, add_method_to_usecase_of_usecase_file,
-    add_usecase_interface_to_domain_file_if_not_exists,
+    add_dto_types_to_domain_file, add_method_to_usecase_interface_of_domain_file,
+    add_method_to_usecase_of_usecase_file, add_usecase_interface_to_domain_file_if_not_exists,
 };
 
-pub fn new_api(domain: String, api_path: String, method_name: String) {
+pub fn new_api(domain: String, api_path: String, method_name: String, has_response: bool) {
     // 1. create domain file if not exists
     create_domain_file_if_not_exists(domain.clone());
 
@@ -15,7 +15,7 @@ pub fn new_api(domain: String, api_path: String, method_name: String) {
     create_domain_dto_file_if_not_exists(domain.clone());
 
     // 3. add DTO typs to domain file
-    // add_dto_types_to_domain_file(domain.clone());
+    add_dto_types_to_domain_file(domain.clone(), has_response);
 
     // 4. add usecase interface to domain file if not exists
     add_usecase_interface_to_domain_file_if_not_exists(domain.clone());

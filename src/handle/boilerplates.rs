@@ -117,3 +117,27 @@ pub fn generate_usecase_method(
 
     new_code
 }
+
+pub fn generate_request_dto(method_name: &str, config_file: &RootConfig) -> String {
+    let request_dto_typename =
+        method_name.to_case(Case::Pascal) + &config_file.request_dto_struct_suffix;
+
+    let mut code = String::new();
+
+    code.push_str(format!("type {request_dto_typename} struct {{\n").as_str());
+    code.push_str("}\n\n");
+
+    code
+}
+
+pub fn generate_response_dto(method_name: &str, config_file: &RootConfig) -> String {
+    let response_dto_typename =
+        method_name.to_case(Case::Pascal) + &config_file.response_dto_struct_suffix;
+
+    let mut code = String::new();
+
+    code.push_str(format!("type {response_dto_typename} struct {{\n").as_str());
+    code.push_str("}\n\n");
+
+    code
+}
