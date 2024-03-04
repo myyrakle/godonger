@@ -16,7 +16,7 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
 
     let config_file = get_config_file_or_warn();
 
-    let mut api_group = "".to_string();
+    let mut api_group = config_file.default_api_group;
     let mut api_path = "/".to_string();
     let mut method_name = String::new();
     let mut has_response = true;

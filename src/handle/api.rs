@@ -15,7 +15,7 @@ pub fn new_api(domain: String, api_path: String, method_name: String, has_respon
     create_domain_dto_file_if_not_exists(domain.clone());
 
     // 3. add DTO typs to domain file
-    add_dto_types_to_domain_file(domain.clone(), has_response);
+    add_dto_types_to_domain_file(domain.clone(), method_name.clone(), has_response);
 
     // 4. add usecase interface to domain file if not exists
     add_usecase_interface_to_domain_file_if_not_exists(domain.clone());

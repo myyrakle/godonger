@@ -4,7 +4,7 @@ use std::fs;
 use crate::utils::get_config_file_or_warn;
 
 use super::boilerplates::{
-    find_interface_and_append_method, generate_request_dto_type, generate_response_dto_type,
+    find_interface_and_append_method, generate_request_dto, generate_response_dto,
     generate_usecase_interface_method, generate_usecase_interface_type, generate_usecase_method,
 };
 
@@ -67,7 +67,7 @@ pub fn add_method_to_usecase_of_usecase_file(domain: &str, method_name: &str) {
     fs::write(usecase_file_path, usecase_file_content).unwrap();
 }
 
-pub fn add_dto_types_to_domain_file(domain: String, has_response: bool) {
+pub fn add_dto_types_to_domain_file(domain: String, method_name: String, has_response: bool) {
     let config_file = get_config_file_or_warn();
 
     let domain_dto_filename = domain.as_str().to_case(Case::Snake) + &config_file.dto_file_suffix;
@@ -80,13 +80,13 @@ pub fn add_dto_types_to_domain_file(domain: String, has_response: bool) {
 
     let mut domain_dto_file_content = fs::read_to_string(&domain_dto_filepath).unwrap();
 
-    let request_dto_type = generate_request_dto_type(domain.clone(), &config_file);
+    let request_dto_type = generate_request_dto(&method_name, &config_file);
 
     domain_dto_file_content.push_str(&request_dto_type);
     domain_dto_file_content.push_str("\n\n");
 
     if has_response {
-        let response_dto_type = generate_response_dto_type(domain.clone(), &config_file);
+        let response_dto_type = generate_response_dto(&method_name, &config_file);
 
         domain_dto_file_content.push_str(&response_dto_type);
         domain_dto_file_content.push_str("\n\n");

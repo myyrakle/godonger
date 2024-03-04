@@ -14,14 +14,14 @@ pub fn generate_usecase_interface_type(domain: String, config_file: &RootConfig)
     usecase_interface_name
 }
 
-pub fn generate_request_dto_type(method_name: String, config_file: &RootConfig) -> String {
+pub fn generate_request_dto_typename(method_name: String, config_file: &RootConfig) -> String {
     let request_dto_name =
         method_name.as_str().to_case(Case::Pascal) + &config_file.request_dto_struct_suffix;
 
     request_dto_name
 }
 
-pub fn generate_response_dto_type(method_name: String, config_file: &RootConfig) -> String {
+pub fn generate_response_dto_typename(method_name: String, config_file: &RootConfig) -> String {
     let response_dto_name =
         method_name.as_str().to_case(Case::Pascal) + &config_file.response_dto_struct_suffix;
 
@@ -35,10 +35,10 @@ pub fn generate_usecase_interface_method(
 ) -> String {
     let method_name = method_name.as_str().to_case(Case::Pascal);
 
-    let request_dto_type = generate_request_dto_type(method_name.clone(), config_file);
+    let request_dto_type = generate_request_dto_typename(method_name.clone(), config_file);
 
     let method_signature = if has_response {
-        let response_dto_type = generate_response_dto_type(method_name.clone(), config_file);
+        let response_dto_type = generate_response_dto_typename(method_name.clone(), config_file);
 
         format!(
             r#"{method_name}(ctx context.Context, request {request_dto_type}) ({response_dto_type}, error)"#
@@ -93,13 +93,13 @@ pub fn generate_usecase_method(
 ) -> String {
     let method_name = method_name.to_case(Case::Pascal);
 
-    let request_dto_type = generate_request_dto_type(method_name.clone(), config_file);
+    let request_dto_type = generate_request_dto_typename(method_name.clone(), config_file);
 
     let usecase_struct_type = generate_usecase_struct_name(domain, config_file);
 
     let mut new_code = String::new();
     if has_response {
-        let response_dto_type = generate_response_dto_type(method_name.clone(), config_file);
+        let response_dto_type = generate_response_dto_typename(method_name.clone(), config_file);
 
         new_code.push_str(
             format!("func (u {usecase_struct_type}) {method_name}(ctx context.Context, request {request_dto_type}) ({response_dto_type}, error) {{\n")
@@ -119,8 +119,7 @@ pub fn generate_usecase_method(
 }
 
 pub fn generate_request_dto(method_name: &str, config_file: &RootConfig) -> String {
-    let request_dto_typename =
-        method_name.to_case(Case::Pascal) + &config_file.request_dto_struct_suffix;
+    let request_dto_typename = generate_request_dto_typename(method_name.to_owned(), config_file);
 
     let mut code = String::new();
 
@@ -131,8 +130,7 @@ pub fn generate_request_dto(method_name: &str, config_file: &RootConfig) -> Stri
 }
 
 pub fn generate_response_dto(method_name: &str, config_file: &RootConfig) -> String {
-    let response_dto_typename =
-        method_name.to_case(Case::Pascal) + &config_file.response_dto_struct_suffix;
+    let response_dto_typename = generate_response_dto_typename(method_name.to_owned(), config_file);
 
     let mut code = String::new();
 
