@@ -5,7 +5,7 @@ use ratatui::{
 };
 use std::{io::Result, process::exit};
 
-use crate::handle;
+use crate::{handle, utils::get_config_file_or_warn};
 
 use super::TerminalType;
 
@@ -14,9 +14,12 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
 
     let mut step = 0;
 
+    let config_file = get_config_file_or_warn();
+
     let mut api_group = "".to_string();
     let mut api_path = "/".to_string();
     let mut method_name = String::new();
+    let mut has_response = true;
 
     let mut render_text = String::new();
     loop {
@@ -34,6 +37,10 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
             2 => {
                 render_text.push_str("Enter Method Name: ");
                 render_text.push_str(&method_name);
+            }
+            3 => {
+                render_text.push_str("Do you need a response? (y/n): ");
+                render_text.push_str(if has_response { "y" } else { "n" });
             }
             _ => {}
         }
@@ -65,6 +72,15 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                             2 => {
                                 method_name.push(c);
                             }
+                            3 => match c {
+                                'y' => {
+                                    has_response = true;
+                                }
+                                'n' => {
+                                    has_response = false;
+                                }
+                                _ => {}
+                            },
                             _ => {}
                         },
                         KeyCode::Esc => {
@@ -86,17 +102,19 @@ pub fn run(terminal: &mut TerminalType, domain: String) -> Result<()> {
                                     method_name.pop();
                                 }
                             }
+                            3 => {}
                             _ => {}
                         },
                         KeyCode::Enter => match step {
-                            0 | 1 => {
+                            0 | 1 | 2 => {
                                 step += 1;
                             }
-                            2 => {
+                            3 => {
                                 handle::api::new_api(
                                     domain.clone(),
                                     api_path.clone(),
                                     method_name.clone(),
+                                    has_response,
                                 );
                                 exit(0);
                             }

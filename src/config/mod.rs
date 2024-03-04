@@ -51,6 +51,8 @@ pub struct RootConfig {
     pub exclude_file_suffix_list: Vec<String>,
 
     pub framework: Framework,
+
+    pub default_api_group: String,
 }
 
 impl Default for RootConfig {
@@ -91,6 +93,7 @@ impl Default for RootConfig {
             route_http_dir: PathBuf::new().join("http"),
             store_dir: PathBuf::new().join("store"),
             helper_dir: PathBuf::new().join("helper"),
+            default_api_group: "/shops".to_string(),
             framework: Framework::Echo,
         }
     }
