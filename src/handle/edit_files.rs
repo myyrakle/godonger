@@ -70,13 +70,10 @@ pub fn add_method_to_usecase_of_usecase_file(domain: &str, method_name: &str) {
 pub fn add_dto_types_to_domain_file(domain: String, method_name: String, has_response: bool) {
     let config_file = get_config_file_or_warn();
 
-    let domain_dto_filename = domain.as_str().to_case(Case::Snake) + &config_file.dto_file_suffix;
+    let domain_dto_filename =
+        domain.as_str().to_case(Case::Snake) + &config_file.dto_file_suffix + ".go";
 
-    let domain_dto_filepath = config_file
-        .internal_dir
-        .join(domain.clone())
-        .join(&config_file.domain_dir)
-        .join(&domain_dto_filename);
+    let domain_dto_filepath = config_file.domain_dir.join(&domain_dto_filename);
 
     let mut domain_dto_file_content = fs::read_to_string(&domain_dto_filepath).unwrap();
 
@@ -93,4 +90,24 @@ pub fn add_dto_types_to_domain_file(domain: String, method_name: String, has_res
     }
 
     fs::write(domain_dto_filepath, domain_dto_file_content).unwrap();
+}
+
+pub fn add_method_to_handler_file(
+    domain: &str,
+    api_path: &str,
+    method_name: &str,
+    has_response: bool,
+) {
+    let config_file = get_config_file_or_warn();
+
+    let handler_file_path = config_file.route_http_dir.join(domain.to_owned() + ".go");
+
+    let method_code = generate_usecase_method(domain, method_name, has_response, &config_file);
+
+    let mut handler_file_content = fs::read_to_string(&handler_file_path).unwrap();
+
+    handler_file_content.push_str("\n\n");
+    handler_file_content.push_str(&method_code);
+
+    fs::write(handler_file_path, handler_file_content).unwrap();
 }

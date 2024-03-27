@@ -3,8 +3,9 @@ use super::create_files::{
     create_handler_file_if_not_exists, create_usecase_file_if_not_exists,
 };
 use super::edit_files::{
-    add_dto_types_to_domain_file, add_method_to_usecase_interface_of_domain_file,
-    add_method_to_usecase_of_usecase_file, add_usecase_interface_to_domain_file_if_not_exists,
+    add_dto_types_to_domain_file, add_method_to_handler_file,
+    add_method_to_usecase_interface_of_domain_file, add_method_to_usecase_of_usecase_file,
+    add_usecase_interface_to_domain_file_if_not_exists,
 };
 
 pub fn new_api(domain: String, api_path: String, method_name: String, has_response: bool) {
@@ -33,4 +34,5 @@ pub fn new_api(domain: String, api_path: String, method_name: String, has_respon
     add_method_to_usecase_of_usecase_file(&domain, &method_name);
 
     // 9. add method to handler file
+    add_method_to_handler_file(&domain, &api_path, &method_name, has_response);
 }

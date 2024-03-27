@@ -105,13 +105,10 @@ pub fn create_usecase_file_if_not_exists(domain: String) {
 pub fn create_domain_dto_file_if_not_exists(domain: String) {
     let config_file = get_config_file_or_warn();
 
-    let domain_dto_filename = domain.as_str().to_case(Case::Snake) + &config_file.dto_file_suffix;
+    let domain_dto_filename =
+        domain.as_str().to_case(Case::Snake) + &config_file.dto_file_suffix + ".go";
 
-    let domain_dto_filepath = config_file
-        .internal_dir
-        .join(domain.clone())
-        .join(&config_file.domain_dir)
-        .join(&domain_dto_filename);
+    let domain_dto_filepath = config_file.domain_dir.join(&domain_dto_filename);
 
     if !domain_dto_filepath.exists() {
         let package_name = "domain".to_string();
