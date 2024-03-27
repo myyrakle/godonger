@@ -20,5 +20,10 @@ fn main() {
                 action::domain::list::run(command.value);
             }
         },
+        SubCommand::API(command) => match command.action {
+            command::api::SubCommand::New(command) => {
+                action::api::new::run(command.value);
+            }
+        },
     }
 }

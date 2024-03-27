@@ -1,8 +1,8 @@
-pub mod list;
+pub mod new;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
-#[clap(author, version, about = "Domain-related commands")]
+#[clap(author, version, about = "API-related commands")]
 pub struct Command {
     #[clap(subcommand)]
     pub action: SubCommand,
@@ -10,5 +10,5 @@ pub struct Command {
 
 #[derive(clap::Subcommand, Debug)]
 pub enum SubCommand {
-    List(list::Command),
+    New(new::Command),
 }

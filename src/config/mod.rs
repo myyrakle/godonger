@@ -19,6 +19,7 @@ pub struct RootConfig {
     pub route_struct_suffix: String,
     pub route_file_suffix: String,
     pub route_dir: PathBuf,
+    pub route_http_dir: PathBuf,
 
     pub usecase_struct_suffix: String,
     pub usecase_interface_suffix: String,
@@ -50,6 +51,8 @@ pub struct RootConfig {
     pub exclude_file_suffix_list: Vec<String>,
 
     pub framework: Framework,
+
+    pub default_api_group: String,
 }
 
 impl Default for RootConfig {
@@ -81,14 +84,16 @@ impl Default for RootConfig {
             model_file_suffix: "_model".to_string(),
             args_file_suffix: "_args".to_string(),
             route_file_suffix: "_handler".to_string(),
-            usecase_file_suffix: "_usecase".to_string(),
+            usecase_file_suffix: "_ucase".to_string(),
             store_file_suffix: "_store".to_string(),
             helper_file_suffix: "_helper".to_string(),
             exclude_file_suffix_list: vec!["_field".to_string()],
             usecase_dir: PathBuf::new().join("usecase"),
             route_dir: PathBuf::new().join("route"),
+            route_http_dir: PathBuf::new().join("http"),
             store_dir: PathBuf::new().join("store"),
             helper_dir: PathBuf::new().join("helper"),
+            default_api_group: "/shops".to_string(),
             framework: Framework::Echo,
         }
     }
