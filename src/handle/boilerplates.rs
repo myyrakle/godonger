@@ -126,7 +126,7 @@ pub fn generate_usecase_method(
         );
     };
 
-    new_code.push_str(r#"    panic("unimplemented")\n"#);
+    new_code.push_str("    panic(\"unimplemented\")\n");
     new_code.push_str("}\n\n");
 
     new_code
