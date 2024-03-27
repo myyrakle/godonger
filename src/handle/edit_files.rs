@@ -4,9 +4,9 @@ use std::fs;
 use crate::utils::get_config_file_or_warn;
 
 use super::boilerplates::{
-    find_interface_and_append_method, generate_request_dto, generate_response_dto,
-    generate_usecase_filepath, generate_usecase_interface_method, generate_usecase_interface_type,
-    generate_usecase_method,
+    find_interface_and_append_method, generate_handler_filepath, generate_request_dto,
+    generate_response_dto, generate_usecase_filepath, generate_usecase_interface_method,
+    generate_usecase_interface_type, generate_usecase_method,
 };
 
 pub fn add_usecase_interface_to_domain_file_if_not_exists(domain: String) {
@@ -101,7 +101,7 @@ pub fn add_method_to_handler_file(
 ) {
     let config_file = get_config_file_or_warn();
 
-    let handler_file_path = config_file.route_http_dir.join(domain.to_owned() + ".go");
+    let handler_file_path = generate_handler_filepath(domain, &config_file);
 
     let method_code = generate_usecase_method(domain, method_name, has_response, &config_file);
 

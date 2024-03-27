@@ -15,6 +15,19 @@ pub fn generate_usecase_filepath(domain: &str, config_file: &RootConfig) -> Path
     usecase_filepath
 }
 
+pub fn generate_handler_filepath(domain: &str, config_file: &RootConfig) -> PathBuf {
+    let handler_filename = domain.to_case(Case::Snake) + &config_file.route_file_suffix + ".go";
+
+    let handler_file_path = config_file
+        .internal_dir
+        .join(domain)
+        .join(&config_file.route_dir)
+        .join(&config_file.route_http_dir)
+        .join(handler_filename);
+
+    handler_file_path
+}
+
 pub fn generate_usecase_struct_name(domain: &str, config_file: &RootConfig) -> String {
     let usecase_struct_name = domain.to_case(Case::Camel) + &config_file.usecase_struct_suffix;
 

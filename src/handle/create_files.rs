@@ -1,4 +1,4 @@
-use super::boilerplates::generate_usecase_filepath;
+use super::boilerplates::{generate_handler_filepath, generate_usecase_filepath};
 use convert_case::{Case, Casing};
 use std::fs;
 
@@ -20,14 +20,7 @@ pub fn create_domain_file_if_not_exists(domain: String) {
 pub fn create_handler_file_if_not_exists(domain: String) {
     let config_file = get_config_file_or_warn();
 
-    let handler_filename = domain.as_str().to_case(Case::Snake) + &config_file.route_file_suffix;
-
-    let handler_file_path = config_file
-        .internal_dir
-        .join(domain.clone())
-        .join(&config_file.route_dir)
-        .join(&config_file.route_http_dir)
-        .join(&handler_filename);
+    let handler_file_path = generate_handler_filepath(&domain, &config_file);
 
     if !handler_file_path.exists() {
         let package_name = config_file.route_http_dir.to_str().unwrap().to_string();
