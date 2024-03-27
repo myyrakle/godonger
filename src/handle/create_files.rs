@@ -1,3 +1,4 @@
+use super::boilerplates::generate_usecase_filepath;
 use convert_case::{Case, Casing};
 use std::fs;
 
@@ -68,11 +69,7 @@ pub fn create_usecase_file_if_not_exists(domain: String) {
 
     let usecase_filename = domain.as_str().to_case(Case::Snake) + &config_file.usecase_file_suffix;
 
-    let usecase_filepath = config_file
-        .internal_dir
-        .join(domain.clone())
-        .join(&config_file.usecase_dir)
-        .join(&usecase_filename);
+    let usecase_filepath = generate_usecase_filepath(&domain, &config_file);
 
     if !usecase_filepath.exists() {
         let package_name = "usecase".to_string();

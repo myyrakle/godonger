@@ -84,7 +84,7 @@ impl Default for RootConfig {
             model_file_suffix: "_model".to_string(),
             args_file_suffix: "_args".to_string(),
             route_file_suffix: "_handler".to_string(),
-            usecase_file_suffix: "_usecase".to_string(),
+            usecase_file_suffix: "_ucase".to_string(),
             store_file_suffix: "_store".to_string(),
             helper_file_suffix: "_helper".to_string(),
             exclude_file_suffix_list: vec!["_field".to_string()],

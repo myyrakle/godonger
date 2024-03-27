@@ -1,5 +1,19 @@
+use std::path::PathBuf;
+
 use crate::config::RootConfig;
 use convert_case::{Case, Casing};
+
+pub fn generate_usecase_filepath(domain: &str, config_file: &RootConfig) -> PathBuf {
+    let usecase_filename = domain.to_case(Case::Snake) + &config_file.usecase_file_suffix + ".go";
+
+    let usecase_filepath = config_file
+        .internal_dir
+        .join(domain)
+        .join(&config_file.usecase_dir)
+        .join(&usecase_filename);
+
+    usecase_filepath
+}
 
 pub fn generate_usecase_struct_name(domain: &str, config_file: &RootConfig) -> String {
     let usecase_struct_name = domain.to_case(Case::Camel) + &config_file.usecase_struct_suffix;
